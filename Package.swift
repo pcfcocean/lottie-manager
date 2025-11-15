@@ -1,21 +1,31 @@
-// swift-tools-version: 6.0
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+// swift-tools-version: 5.10
 
 import PackageDescription
 
 let package = Package(
     name: "LottieManager",
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "LottieManager",
-            targets: ["LottieManager"]),
+            type: .dynamic,
+            targets: ["LottieManager"]
+        )
+    ],
+    dependencies: [
+        .package(url: "https://github.com/airbnb/lottie-spm.git", from: "4.5.1"),
+        .package(
+            name: "SnapKit",
+            url: "https://github.com/SnapKit/SnapKit.git",
+            from: "5.0.1"
+        )
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "LottieManager"),
-
+            name: "LottieManager",
+            dependencies: [
+                .product(name: "Lottie", package: "lottie-spm"),
+                .byName(name: "SnapKit")
+            ]
+        )
     ]
 )
